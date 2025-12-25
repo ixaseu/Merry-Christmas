@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎄 Merry Christmas 🎉</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+
+    <style>
+        :root {
+            --title-size: clamp(26px, 5vw, 52px);
+            --day-size: clamp(44px, 10vw, 90px);
+            --label-size: clamp(15px, 4vw, 26px);
+            --date-size: clamp(16px, 4vw, 32px);
+            --card-gap: clamp(14px, 4vw, 36px);
+        }
+
+        /* ===== 夜紫动态背景 ===== */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(120deg, #262446, #3a3360, #262446);
+            background-size: 300% 300%;
+            animation: bgMove 18s ease infinite;
+            font-family: "Segoe UI", "PingFang SC", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f0edf6;
+        }
+
+        @keyframes bgMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ===== 漂浮爱心 ===== */
+        .hearts {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 165, 185, 0.5);
+            transform: rotate(45deg);
+            animation: floatUp linear infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -7px;
+        }
+
+        .heart::after {
+            left: -7px;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(110vh) rotate(45deg);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            to {
+                transform: translateY(-120px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* ============================= */
+        /*  左下 / 右上 背景人物图片  */
+        /* ============================= */
+        .corner-bg {
+            position: fixed;
+            z-index: 5;
+            /* 在背景之上，看板之下 */
+            pointer-events: none;
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 14px rgba(255, 200, 220, 0.35));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 左下：小新 */
+        .corner-bg.left {
+            left: 20px;
+            bottom: 20px;
+            width: clamp(120px, 20vw, 260px);
+            aspect-ratio: 1 / 1;
+            background-image: url("https://youke2.picui.cn/s1/2025/12/25/694ce60f3d317.png");
+        }
+
+        /* 右上：星星人 */
+        .corner-bg.right {
+            right: 20px;
+            top: 20px;
+            width: clamp(120px, 18vw, 240px);
+            aspect-ratio: 1 / 1;
+            background-image: url("https://youke2.picui.cn/s1/2025/12/25/694ce6115bdff.png");
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 移动端可选隐藏 */
+        @media (max-width: 480px) {
+            .corner-bg {
+                opacity: 0.6;
+            }
+        }
+
+        /* ===== 名字 ===== */
+        .name {
+            font-size: 500px;
+            font-weight: 800;
+            letter-spacing: 6px;
+
+            /* 核心：左上 → 右下 渐变 */
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.25) 0%,
+                    rgba(255, 255, 255, 0.55) 40%,
+                    rgba(255, 255, 255, 0.35) 70%,
+                    rgba(255, 255, 255, 0.5) 100%);
+
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+
+            /* 光晕 */
+            text-shadow:
+                0 0 6px rgba(255, 255, 255, 0.35),
+                0 0 14px rgba(255, 255, 255, 0.25),
+                0 0 28px rgba(255, 255, 255, 0.15);
+
+            /* 流动高光动画 */
+            animation: shineMove 4s linear infinite;
+            position: absolute;
+            z-index: 2;
+        }
+
+        #my {
+            left: 0;
+            top: 0;
+        }
+
+        #and {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #you {
+            right: 0;
+            bottom: 0;
+        }
+
+        /* 高光流动 */
+        @keyframes shineMove {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+
+        /* ===== 看板 ===== */
+        .board {
+            position: relative;
+            z-index: 10;
+            width: min(90vw, 1200px);
+            padding: clamp(18px, 4vw, 38px);
+            border-radius: 22px;
+            background: rgba(95, 85, 140, 0.45);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 60px rgba(160, 140, 210, 0.4);
+            text-align: center;
+        }
+
+        .now-time {
+            min-height: 69px;
+            font-size: var(--title-size);
+            font-weight: 600;
+            margin-bottom: var(--card-gap);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--card-gap);
+        }
+
+        .card {
+            padding: clamp(18px, 4vw, 28px);
+            border-radius: 18px;
+            background: linear-gradient(180deg,
+                    rgba(150, 145, 190, 0.2),
+                    rgba(105, 95, 150, 0.1));
+        }
+
+        .label {
+            font-size: var(--label-size);
+        }
+
+        .date {
+            font-size: var(--date-size);
+            margin-bottom: 10px;
+        }
+
+        .days {
+            font-size: var(--day-size);
+            font-weight: 700;
+        }
+
+        /* 移动端 */
+        @media (max-width: 480px) {
+            .now-time {
+                min-height: 35px;
+            }
+
+            .name {
+                font-size: 230px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 爱心 -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- 左下：小新 -->
+    <div class="corner-bg left"></div>
+
+    <!-- 右上：星星人 -->
+    <div class="corner-bg right"></div>
+
+    <div class="name" id="my">W</div>
+    <div class="name" id="and">&</div>
+    <div class="name" id="you">W</div>
+
+    <!-- 看板 -->
+    <div class="board">
+        <div class="now-time" id="nowTime"></div>
+
+        <div class="cards">
+            <div class="card">
+                <div class="label">相识于</div>
+                <div class="date" id="start1">2025-07-19</div>
+                <div>
+                    <span class="days" id="days1">0</span> 天
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="label">纪念日</div>
+                <div class="date" id="start2">2025-08-29</div>
+                <div>
+                    <span class="days" id="days2">0</span> 天
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        setInterval(() => {
+            nowTime.innerText = moment().format("YYYY-MM-DD HH:mm:ss");
+        }, 1000);
+
+        function updateDays(startId, daysId) {
+            const days = moment().diff(
+                moment(document.getElementById(startId).innerText),
+                "days"
+            );
+            document.getElementById(daysId).innerText = days;
+        }
+
+        updateDays("start1", "days1");
+        updateDays("start2", "days2");
+
+        const heartsBox = document.getElementById("hearts");
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = 12 + Math.random() * 8 + "s";
+            heartsBox.appendChild(heart);
+            setTimeout(() => heart.remove(), 20000);
+        }, 900);
+    </script>
+
+</body>
+
+</html>
